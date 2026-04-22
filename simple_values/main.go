@@ -1,6 +1,6 @@
 package main
 
-import "fmt"
+// import "fmt"
 
 /*
 
@@ -134,6 +134,33 @@ import "fmt"
 		return a+b
 	}
 
+	variadic function pass n paramaters
+	fmt.Println(1,3,3,4,4,5,"hello")
+
+
+	func sum(nums ...int) int {
+
+	}
+
+	Closures functions knows outer scops
+
+	Pointers stores memory address
+
+	by value passed
+	func changeNUm(num *int){
+		*num=5  dereference
+		fmt.Println("In ChnageNum",num)
+	}
+
+	func main(){
+		num:=1
+
+		ChangeNum(&num)
+		fmt.Println("memory address"&num)
+
+		fmt.Println(num)
+	}
+
 
 
 
@@ -144,17 +171,44 @@ import "fmt"
 
 */
 
+func Counter() func() int{
+	var cnt int =0
+
+	return func() int {
+		cnt++
+		return cnt
+	}
+}
+
 func getlanguage() (string,string){
 	return "golang", "cpp"
 }
 
+func sum(nums ...int) int {
+	total:=0;
 
+	for _, num:= range nums {
+		total+=num
+	}
+	return total
 
-func main(){
 	
-	fmt.Println(getlanguage())
-
 }
+
+
+
+// func main(){
+
+// 	nu:= []int{3,4,5,9}
+	
+// 	fmt.Println(getlanguage())
+// 	result:= sum(nu...)
+// 	fmt.Println(result)
+
+// 	// increment:=Counter()
+// 	// fmt.Println(increment)
+
+// }
 
 // func main(){
 
