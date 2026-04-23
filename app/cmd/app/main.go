@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/atulsinghhhh/golang/internal/config"
+	"github.com/atulsinghhhh/golang/internal/http/handlers/app"
 )
 
 func main() {
@@ -27,9 +28,7 @@ func main() {
 
 	cfg:=config.MustLoad()
 	router:=http.NewServeMux()
-	router.HandleFunc("GET /",func(w http.ResponseWriter, r*http.Request){
-		w.Write([]byte("Welcome to my app"))
-	})
+	router.HandleFunc("POST /api/v1/app",app.New())
 
 	server:=http.Server {
 		Addr: cfg.HTTPServer.Addr,
@@ -62,8 +61,6 @@ func main() {
 	}
 
 	slog.Info("server shutdown successfully")
-
-
 
 	// fmt.Println("server started")
 
