@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 	// "time"
 	// "math/rand"
-	"sync"
+	// "sync"
 	// "time"
 )
 
@@ -67,35 +68,73 @@ import (
 	mutex-> race condition
 */
 
-type Post struct {
-	views int
-	mu sync.Mutex
-}
+// type Post struct {
+// 	views int
+// 	mu sync.Mutex
+// }
 
-func (p *Post) inc(wg *sync.WaitGroup){
-	
-	defer func(){
-		p.mu.Unlock()
-		wg.Done()
-	}()
+// func (p *Post) inc(wg *sync.WaitGroup){
 
-	p.mu.Lock()
-	p.views+=1
-}
+// 	defer func(){
+// 		p.mu.Unlock()
+// 		wg.Done()
+// 	}()
+
+// 	p.mu.Lock()
+// 	p.views+=1
+// }
+
+// func main(){
+
+// 	mypost:=Post{views: 0}
+// 	var wg sync.WaitGroup
+
+// 	for i:=0;i<100;i++{
+// 		wg.Add(1)
+// 		go mypost.inc(&wg)
+// 	}
+
+// 	wg.Wait()
+
+// 	fmt.Println(mypost.views)
+
+// }
+
+/*
+	file management
+*/
 
 func main(){
-
-	mypost:=Post{views: 0}
-	var wg sync.WaitGroup
-
-	for i:=0;i<100;i++{
-		wg.Add(1)
-		go mypost.inc(&wg)
+	f,err:=os.Open("hello.txt")
+	if err!=nil{
+		// log the error
+		panic(err)
 	}
 
-	wg.Wait()
-	
-	fmt.Println(mypost.views)
+	defer f.Close()
 
+	buf:= make([]byte,10)
+
+	d,err:=f.Read(buf)
+	if err!=nil{
+		// log the error
+		panic(err)
+	}
+
+	println("data",d,buf)
+
+
+	// fileInfo,err:=f.Stat()
+
+	// if err!=nil{
+	// 	// log the error
+	// 	panic(err)
+	// }
+
+	// fmt.Println(fileInfo.Name())
+	// fmt.Println(fileInfo.Size())
+	// fmt.Println(fileInfo)
+
+	// read files
+	// f,err:=os.Open()
 }
-
