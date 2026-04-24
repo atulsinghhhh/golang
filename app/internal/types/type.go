@@ -1,7 +1,7 @@
 package types
 
 type App struct{
-	id int
-	Name string
-	content string
+	id int64
+	Name string `validate:"required"`
+	content string `validate:"required"`
 }

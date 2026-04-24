@@ -7,14 +7,17 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
+
+	"github.com/atulsinghhhh/golang/internal/storage"
 	"github.com/atulsinghhhh/golang/internal/types"
 	"github.com/atulsinghhhh/golang/internal/utils/response"
-	
 )
 
-func New() http.HandlerFunc {
+func New(storage storage.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r*http.Request){
 
+		slog.Info("creating my new app")
 		var app types.App
 
 		error:=json.NewDecoder(r.Body).Decode(&app)
@@ -22,7 +25,23 @@ func New() http.HandlerFunc {
 			response.WriteJson(w, http.StatusBadRequest,response.GeneralError)
 			return
 		}
-		slog.Info("creating my new app")
+		if error!=nil{
+			response.WriteJson(w,http.StatusBadRequest,response.GeneralError(error))
+			return
+		}
+
+		// request validation
+
+		err:=validator.New().Struct(app)
+		if err!=nil {
+			validateErrors:=err.(validator.ValidationErrors)
+			response.WriteJson(w,http.StatusBadRequest,response.ValidationError(validateErrors))
+			return
+		}
+
+
+
+
 		response.WriteJson(w, http.StatusCreated,map[string]string{"success":"ok"})
 
 

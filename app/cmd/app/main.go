@@ -13,6 +13,8 @@ import (
 
 	"github.com/atulsinghhhh/golang/internal/config"
 	"github.com/atulsinghhhh/golang/internal/http/handlers/app"
+	"github.com/atulsinghhhh/golang/internal/storage/sqlite"
+	
 )
 
 func main() {
@@ -27,8 +29,17 @@ func main() {
 	*/
 
 	cfg:=config.MustLoad()
+
+	storage,error:=Sqlite.New(cfg)
+	if error!=nil{
+		log.Fatal(error)
+	}
+
+	slog.Info("storage initialized",slog.String("env", cfg.Env),slog.String("version","1.0.0"))
+
 	router:=http.NewServeMux()
-	router.HandleFunc("POST /api/v1/app",app.New())
+	router.HandleFunc("POST /api/v1/app",app.New(storage))
+
 
 	server:=http.Server {
 		Addr: cfg.HTTPServer.Addr,

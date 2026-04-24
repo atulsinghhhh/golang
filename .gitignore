@@ -22,7 +22,7 @@
 # vendor/
 .env
 
-storage
+/storage
 # Go workspace file
 go.work
 
