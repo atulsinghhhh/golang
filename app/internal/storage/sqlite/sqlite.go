@@ -36,4 +36,3 @@ func New(Cfg *config.Config)(*Sqlite,error){
 }	
 
 
-func Storage
