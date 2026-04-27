@@ -2,7 +2,6 @@ package user
 
 import (
 	"go-tweet/internal/services/user"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,5 +18,7 @@ func NewHandler(api *gin.Engine,userService user.UserService) *Handler{
 }
 
 func (h *Handler) RouteList(){
+	authRoute := h.api.Group("/auth")
+	authRoute.POST("/register", h.Resgister)
 	
 }

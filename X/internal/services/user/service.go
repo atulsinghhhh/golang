@@ -1,11 +1,14 @@
 package user
 
 import (
+	"context"
 	"go-tweet/internal/config"
+	"go-tweet/internal/dto"
 	"go-tweet/internal/respository/user"
 )
 
 type UserService interface {
+	Register(ctx context.Context, req *dto.RegisterUserRequest) (int64, int, error)
 }
 
 type Service struct {
