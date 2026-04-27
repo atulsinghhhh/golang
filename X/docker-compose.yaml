@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: db_go_tweets
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: superATUL
+      MYSQL_DATABASE: go_tweets
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: cloudbeaver
+    ports:
+      - "8080:8978"
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
