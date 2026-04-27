@@ -11,11 +11,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 func main() {
 
 	r := gin.Default()
+	validate:=validator.New()
 
 	cfg, err := config.MustLoad()
 	if err != nil {
@@ -35,7 +37,7 @@ func main() {
 	})
 	userRepo := userrepo.NewRepo(db)
 	userService := userservice.NewService(cfg, userRepo)
-	userHandler := userhandler.NewHandler(r, userService)
+	userHandler := userhandler.NewHandler(r, validate, userService)
 	userHandler.RouteList()
 
 	server := fmt.Sprintf("localhost: %s", cfg.Port)
