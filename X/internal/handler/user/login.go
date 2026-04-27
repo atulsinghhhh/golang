@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) Register(c *gin.Context) {
+func (h *Handler) Login(c *gin.Context) {
 
 	var (
 		ctx = c.Request.Context()
-		req dto.RegisterUserRequest
+		req dto.LoginUserRequest
 	)
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -24,7 +24,7 @@ func (h *Handler) Register(c *gin.Context) {
 		})
 		return
 	}
-	user_id, status, err := h.userService.Register(ctx, &req)
+	token, refresh_token, status, err := h.userService.Login(ctx, &req)
 	if err != nil {
 		c.JSON(status, gin.H{
 			"error": err.Error(),
@@ -32,6 +32,7 @@ func (h *Handler) Register(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{
-		"user_id": user_id,
+		"token": token,
+		"refresh_token": refresh_token,
 	})
 }
