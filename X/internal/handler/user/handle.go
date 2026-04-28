@@ -1,6 +1,7 @@
 package user
 
 import (
+	"go-tweet/internal/middleware"
 	"go-tweet/internal/services/user"
 
 	"github.com/gin-gonic/gin"
@@ -21,9 +22,9 @@ func NewHandler(api *gin.Engine, validate *validator.Validate, userService user.
 	}
 }
 
-func (h *Handler) RouteList(){
+func (h *Handler) RouteList(secretkey string){
 	authRoute := h.api.Group("/auth")
 	authRoute.POST("/register", h.Register)
 	authRoute.POST("/login", h.Login)
-	authRoute.POST("/refresh-token", h.RefreshToken)
+	authRoute.POST("/refresh-token", middleware.AuthRefreshTokenMiddleware(secretkey), h.RefreshToken)
 }

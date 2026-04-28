@@ -6,6 +6,10 @@ import (
 	userhandler "go-tweet/internal/handler/user"
 	userrepo "go-tweet/internal/respository/user"
 	userservice "go-tweet/internal/services/user"
+
+	postrepo "go-tweet/internal/respository/post"
+	postservice "go-tweet/internal/services/post"
+	posthandler "go-tweet/internal/handler/post"
 	"go-tweet/sql/internalsql"
 	"log"
 	"net/http"
@@ -36,9 +40,13 @@ func main() {
 		})
 	})
 	userRepo := userrepo.NewRepo(db)
+	postRepo := postrepo.NewRepo(db)
 	userService := userservice.NewService(cfg, userRepo)
+	postService := postservice.NewService(cfg, postRepo)
 	userHandler := userhandler.NewHandler(r, validate, userService)
-	userHandler.RouteList()
+	postHandler := posthandler.NewHandler(r, validate, postService)
+	userHandler.RouteList(cfg.Secret_jwt)
+	postHandler.RouteList(cfg.Secret_jwt)
 
 	server := fmt.Sprintf("localhost: %s", cfg.Port)
 	r.Run(server)
