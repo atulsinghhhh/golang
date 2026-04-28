@@ -25,4 +25,5 @@ func (h *Handler) RouteList(){
 	authRoute := h.api.Group("/auth")
 	authRoute.POST("/register", h.Register)
 	authRoute.POST("/login", h.Login)
+	authRoute.POST("/refresh-token", h.RefreshToken)
 }

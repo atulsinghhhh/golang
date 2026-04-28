@@ -12,6 +12,8 @@ type UserRepo interface {
 	CreateUser(ctx context.Context, user *model.Usermodel) (int64, error)
 	GetRefreshToken(ctx context.Context,userID int64, now time.Time) (*model.RefreshTokenModel, error)
 	StoreRefreshToken(ctx context.Context, token *model.RefreshTokenModel) error
+	GetUserByID(ctx context.Context, userID int64) (*model.Usermodel, error)
+	DeleteRefreshToken(ctx context.Context, userID int64) error
 }
 
 type UserRepos struct {
