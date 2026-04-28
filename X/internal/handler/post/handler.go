@@ -23,7 +23,7 @@ func NewHandler(api *gin.Engine, validate *validator.Validate, postService post.
 }
 
 func (h *Handler) RouteList(secretKey string) {
-	routeAuth := h.api.Group("/post")
+	routeAuth := h.api.Group("/tweets")
 	routeAuth.Use(middleware.AuthMiddleware(secretKey))
 	routeAuth.POST("/", h.CreatePost)
 }
